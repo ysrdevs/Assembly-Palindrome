@@ -1,16 +1,16 @@
 Data Segment
 
-str1 db 'MADAM','$'
+str1 db 'RACECAR','$'
 
 strlen1 dw $-str1
 
 strrev db 20 dup(' ')
 
-str_palind db ' please enter a string','$'
+str_palind db ' Please enter a word','$'
 
-str_palind db ' The String is a Palindrome.','$'
+str_palind db ' The word is a Palindrome.','$'
 
-str_not_palind db ' The String is not a Palindrome.','$'
+str_not_palind db ' The word is not a Palindrome.','$'
 
 Data Ends
 
