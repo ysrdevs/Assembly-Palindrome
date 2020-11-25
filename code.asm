@@ -1,6 +1,6 @@
 Data Segment
 
-str1 db 'RACECAR','$'
+str1 db 'abba','$'
 
 strlen1 dw $-str1
 
@@ -8,9 +8,9 @@ strrev db 20 dup(' ')
 
 str_palind db ' Please enter a word','$'
 
-str_palind db ' The word is a Palindrome.','$'
+str_palin db ' The word is a Palindrome.','$'
 
-str_not_palind db ' The word is not a Palindrome.','$'
+str_not_palin db ' The word is not a Palindrome.','$'
 
 Data Ends
 
@@ -70,7 +70,7 @@ lea di, strrev
 
 repe cmpsb
 
-jne Not_Palind
+jne Not_Palin
 
 Palind:
        mov ah, 09h
@@ -82,5 +82,8 @@ Palind:
        mov ah, 09h
        lea dx, str_not_palin
        int 21h
+  Exit: 
+    mov ax, 4c00h 
+    int 21h
    Code Ends
 End Begin
