@@ -1,15 +1,10 @@
 Data Segment
 
 str1 db 'abba','$'
-
-strlen1 dw $-str1
+strlen1 equ $-str1
 
 strrev db 20 dup(' ')
-
-str_palind db ' Please enter a word','$'
-
-str_palin db ' The word is a Palindrome.','$'
-
+str_palind db ' The word is a Palindrome.','$'
 str_not_palin db ' The word is not a Palindrome.','$'
 
 Data Ends
@@ -19,71 +14,50 @@ Code Segment
 Assume cs:code, ds:data
 
 Begin:
+    mov ax, data
+    mov ds, ax
+    mov es, ax
 
-mov ax, data
+    ; Initialize pointers
+    lea si, str1
+    lea di, strrev
 
-mov ds, ax
+    ; Initialize length
+    mov cx, strlen1
 
-mov es, ax
+    ; Reverse the string
+Reverse_Loop:
+    mov al, [si + cx - 2]
+    mov [di], al
+    inc di
+    loop Reverse_Loop
 
-mov cx, strlen1
+    ; Add null terminator to reversed string
+    mov byte ptr [di], '$'
 
-add cx, -2
+    ; Check if the string is a palindrome
+    lea si, str1
+    lea di, strrev
 
-lea si, str1
+    mov cx, strlen1
+    repe cmpsb
 
-lea di, strrev
-
-add si, strlen1
-
-add si, -2
-
-L1:
-
-mov al, [si]
-
-mov [di], al
-
-dec si
-
-inc di
-
-loop L1
-
-mov al, [si]
-
-mov [di], al
-
-inc di
-
-mov dl, '$'
-
-mov [di], dl
-
-mov cx, strlen1
-
-Palindrome_Check:
-
-lea si, str1
-
-lea di, strrev
-
-repe cmpsb
-
-jne Not_Palin
-
-Palind:
-       mov ah, 09h
-       lea dx, str_palin
-       int 21h
-       jmp Exit
+    ; Output result
+    jne Not_Palind
+    Palind:
+        mov ah, 09h
+        lea dx, str_palind
+        int 21h
+        jmp Exit
 
     Not_Palind:
-       mov ah, 09h
-       lea dx, str_not_palin
-       int 21h
-  Exit: 
-    mov ax, 4c00h 
+        mov ah, 09h
+        lea dx, str_not_palin
+        int 21h
+
+Exit:
+    mov ax, 4c00h
     int 21h
-   Code Ends
+
+Code Ends
 End Begin
